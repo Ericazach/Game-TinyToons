@@ -1,15 +1,15 @@
 class EnemyTaz {
   constructor(ctx) {
     this.ctx = ctx;
-    this.x = 500;
+    this.x = 1800;
     this.y = 470;
     this.y0 = 520;
     this.w = 130;
     this.h = 130;
-    this.vx = 0;
+    this.vx = -6;
     this.vy = 0;
     this.ax = 0;
-  	this.ay = 0.4;
+  	this.ay = 0.5;
 
   	this.img = new Image();
   	this.img.src = '/assets/images/Enemy/taz-run.png'
@@ -57,6 +57,5 @@ move() {
 		this.img.frameIndex = 0;
   }
 }
-
 
 }

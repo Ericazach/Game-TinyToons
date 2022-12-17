@@ -1,15 +1,15 @@
 class EnemyGirl {
   constructor(ctx) {
     this.ctx = ctx;
-    this.x = 1100;
-    this.y = 470;
+    this.x = 2500 + Math.random() * 80;
+    this.y = 400;
     this.y0 = 520;
     this.w = 130;
     this.h = 130;
-    this.vx = 0;
+    this.vx = -2;
     this.vy = 0;
     this.ax = 0;
-    this.ay = 0.4;
+    this.ay = 1;
 
     this.img = new Image();
     this.img.src = '/assets/images/Enemy/run-girl.png'
@@ -56,5 +56,9 @@ class EnemyGirl {
 		if (this.img.frameIndex > this.img.frames - 1) {
 			this.img.frameIndex = 0;
     }
+  }
+
+  inCanvas() {
+    return this.x + this.w >= 0 && this.x <= this.ctx.canvas.width;
   }
 }
