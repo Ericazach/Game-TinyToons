@@ -4,15 +4,15 @@ class Player {
     this.x = 50;
     this.y = 470;
     this.y0 = 500;
-    this.w = 170;
-    this.h = 170;
+    this.w = 130;
+    this.h = 130;
     this.vx = 0;
 	  this.vy = 0;
 	  this.ax = 0;
 	  this.ay = 0.3;
 
     this.img = new Image();
-    this.img.src = '/assets/images/Buster/bunny - run1.png'
+    this.img.src = '/assets/images/Buster/Run bunny.png'
     this.img.frames = 6;
     this.img.frameIndex = 0;
     this.tick = 0;
