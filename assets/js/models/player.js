@@ -15,23 +15,24 @@ class Player {
     this.img.src = '/assets/images/Buster/Run bunny.png'
     this.img.frames = 6;
     this.img.frameIndex = 0;
-    this.tick = 0;
-  }
+		this.tick = 0;
+		
+	}
 
   draw() {
 		this.ctx.drawImage(
-		this.img,
-		this.img.frameIndex * this.img.width / this.img.frames,
-		0,
-		this.img.width / this.img.frames,
-		this.img.height,
-		this.x,
-		this.y,
-		this.w,
-		this.h,
-		)
+			this.img,
+			this.img.frameIndex * this.img.width / this.img.frames,
+			0,
+			this.img.width / this.img.frames,
+			this.img.height,
+			this.x,
+			this.y,
+			this.w,
+			this.h,
+		);
 		
-		this.animate();
+			this.animate();
 	}
 	
 	animate() {
@@ -72,21 +73,5 @@ class Player {
 		if (this.y === this.y0) {
 			this.vy = -10;
 		}
-	}
-
-	moveKeyDown(key) {
-		if (key === RIGHT) {
-			this.vx = 5;
-		} else if (key === LEFT) {
-			this.vx = -5;
-		} else if (key === UP) {
-			this.jump();
-		}
-	}
-
-	moveKeyUp(key) {
-		if (key === RIGHT || key === LEFT) {
-			this.vx = 0;
-    }
 	}
 }

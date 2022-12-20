@@ -13,6 +13,13 @@ class Game {
 		this.tickGirl = 0;
 		this.score = 0;
 		this.touch = 10000;
+
+		this.camera = {
+			position: {
+				x: 0,
+				y: 0,
+			}
+		}
   }
 
 	start() {
@@ -57,6 +64,17 @@ class Game {
 		if (this.tickGirl <= 0) {
 			this.tickGirl = 200 + Math.random() * 40;
 			this.enemyGirls.push(new EnemyGirl(this.ctx));
+		}
+	}
+
+	shouldMoveCamera() {
+		const leftSidePlayer = this.player.x + this.player.w;
+
+		if (leftSidePlayer >= this.ctx.canvas.width / 2) {
+			this.bg.vx = -5;
+			this.player.vx = 0
+		} else {
+			this.bg.vx = 0;
 		}
 	}
 
@@ -106,16 +124,15 @@ class Game {
 					this.player.vy = 3;
 					taz.y0 = 900;
 				}
- 
-				if (this.player.vx > 0) {
-					this.player.vx = 0;
+
+				if (this.player.vx >= 0) {
 					this.touch--;
 				}
 			}
 		})
 	}
 
-		checkCollitionsGirl() {
+	checkCollitionsGirl() {
 		this.enemyGirls.forEach((girl) => {
 			if (isCollition({
 				object1: this.player,
@@ -126,9 +143,8 @@ class Game {
 					this.player.vy = 3;
 					girl.y0 = 900;
 				}
- 
-				if (this.player.vx > 0) {
-					this.player.vx = 0;
+
+				if (this.player.vx >= 0) {
 					this.touch--;
 				}
 			}
@@ -148,11 +164,29 @@ class Game {
 
 	startListeners() {
 		document.onkeydown = (e) => {
-			this.player.moveKeyDown(e.keyCode); 
+			this.moveKeyDown(e.keyCode); 
 		}
 
 		document.onkeyup = (e) => {
-			this.player.moveKeyUp(e.keyCode);
+			this.moveKeyUp(e.keyCode);
 		}
+	}
+
+	moveKeyDown(key) {
+		if (key === RIGHT) {
+			this.player.vx = 5;
+			this.shouldMoveCamera();
+		} else if (key === LEFT) {
+			this.player.vx = -5;
+		} else if (key === UP) {
+			this.player.jump();
+		}
+	}
+
+	moveKeyUp(key) {
+		if (key === RIGHT || key === LEFT) {
+			this.player.vx = 0;
+			this.bg.vx = 0;
+    }
 	}
 }

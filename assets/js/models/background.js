@@ -5,7 +5,7 @@ class Background {
     this.y = 0;
     this.w = this.ctx.canvas.width;
     this.h = this.ctx.canvas.height;
-    this.vx = -2.5;
+    this.vx = 0;
     this.vy = 0;
     this.img = new Image();
     this.img.src = '/assets/images/extra/illustration.png';
