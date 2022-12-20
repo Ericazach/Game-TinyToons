@@ -1,7 +1,7 @@
 class EnemyTaz {
   constructor(ctx) {
     this.ctx = ctx;
-    this.x = 1800;
+    this.x = 1280;
     this.y = 470;
     this.y0 = 520;
     this.w = 130;
@@ -56,6 +56,10 @@ move() {
 	if (this.img.frameIndex > this.img.frames - 1) {
 		this.img.frameIndex = 0;
   }
+	}
+
+inCanvas() {
+    return this.x + this.w >= 0 && this.x <= this.ctx.canvas.width;
 }
 
 }

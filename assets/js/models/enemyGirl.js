@@ -1,12 +1,12 @@
 class EnemyGirl {
   constructor(ctx) {
     this.ctx = ctx;
-    this.x = 2500 + Math.random() * 80;
+    this.x = 1200 - Math.random() * 30;
     this.y = 400;
     this.y0 = 520;
     this.w = 130;
     this.h = 130;
-    this.vx = -2;
+    this.vx = -6;
     this.vy = 0;
     this.ax = 0;
     this.ay = 1;

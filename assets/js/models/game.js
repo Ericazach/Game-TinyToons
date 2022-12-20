@@ -12,6 +12,7 @@ class Game {
 		this.tickTaz = 0;
 		this.tickGirl = 0;
 		this.score = 0;
+		this.touch = 10000;
   }
 
 	start() {
@@ -20,7 +21,8 @@ class Game {
 			this.clear();
 			this.draw();
 			this.checkCollitionsCarrot();
-			this.checkCollitionsTaz()
+			this.checkCollitionsTaz();
+			this.checkCollitionsGirl();
 			this.move();
 			this.addCarrots();
 			this.addEnemyTaz();
@@ -61,11 +63,6 @@ class Game {
 	draw() {
 		this.bg.draw();
 		this.player.draw();
-/* 		this.enemyGirls.forEach(girl =>{
-			if (!girl.inCanvas()) {
-				girl.draw();
-			}
-		}); */
 		this.enemyGirls.forEach(girl => girl.draw())
 		this.enemyTazs.forEach(taz => taz.draw());
 		this.carrots.forEach(carrot => carrot.draw());
@@ -81,6 +78,8 @@ class Game {
 
 	clear() {
 		this.carrots = this.carrots.filter(carrot => carrot.inCanvas());
+		this.enemyGirls = this.enemyGirls.filter(girl => girl.inCanvas());
+		this.enemyTazs = this.enemyTazs.filter(taz => taz.inCanvas());
 		this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height); 
 	}
 	
@@ -98,13 +97,40 @@ class Game {
 
 	checkCollitionsTaz() {
 		this.enemyTazs.forEach((taz) => {
-			const colX = (this.player.x + this.player.w) >= taz.x && (taz.x + taz.w) >= this.player.x;
-			const colY = (taz.y + taz.h) >= this.player.y && taz.y <= (this.player.y + this.player.h);
+			if (isCollition({
+				object1: this.player,
+				object2: taz
+			})) {
 
-			if (colX) {
-				taz.y0 = 900;
-			} else if (colY) {
-				
+				if (this.player.vy > 0) {
+					this.player.vy = 3;
+					taz.y0 = 900;
+				}
+ 
+				if (this.player.vx > 0) {
+					this.player.vx = 0;
+					this.touch--;
+				}
+			}
+		})
+	}
+
+		checkCollitionsGirl() {
+		this.enemyGirls.forEach((girl) => {
+			if (isCollition({
+				object1: this.player,
+				object2: girl
+			})) {
+
+				if (this.player.vy > 0) {
+					this.player.vy = 3;
+					girl.y0 = 900;
+				}
+ 
+				if (this.player.vx > 0) {
+					this.player.vx = 0;
+					this.touch--;
+				}
 			}
 		})
 	}
@@ -116,7 +142,8 @@ class Game {
 	drawCounter() {
 		this.ctx.font = "35px Arial";
   	this.ctx.fillStyle = "white";
-  	this.ctx.fillText(`Carrots: ${this.score}`, 10, 50);
+		this.ctx.fillText(`Carrots: ${this.score}`, 10, 50);
+		this.ctx.fillText(`Carrots: ${this.touch}`, 10, 100);
 	}
 
 	startListeners() {
