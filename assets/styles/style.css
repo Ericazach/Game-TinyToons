@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -7,5 +8,5 @@ html, body {
 }
 
 #canvas {
-    background-color: white;
+  background-color: white;
 }

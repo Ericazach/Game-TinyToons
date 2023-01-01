@@ -13,21 +13,21 @@ class Carrot {
     this.ay = 1;
 
     this.img = new Image();
-    this.img.src = '/assets/images/extra/carrot.png'
+    this.img.src = "/assets/images/extra/carrot.png";
   }
 
   draw() {
     this.ctx.drawImage(
-		this.img,
-		0,
-		0,
-		this.img.width,
-		this.img.height,
-		this.x,
-		this.y,
-		this.w,
-		this.h,
-		)
+      this.img,
+      0,
+      0,
+      this.img.width,
+      this.img.height,
+      this.x,
+      this.y,
+      this.w,
+      this.h
+    );
   }
 
   move() {
@@ -43,6 +43,6 @@ class Carrot {
   }
 
   inCanvas() {
-    return this.x + this.w >= 0 && this.x <= this.ctx.canvas.width
+    return this.x + this.w >= 0 && this.x <= this.ctx.canvas.width;
   }
 }
