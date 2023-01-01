@@ -16,6 +16,9 @@ class Player {
     this.img.frames = 6;
     this.img.frameIndex = 0;
     this.tick = 0;
+    
+    this.state = [];
+    this.currentState = this.state[0];
   }
 
   draw() {
@@ -36,7 +39,7 @@ class Player {
 
   animate() {
     this.tick++;
-    if (this.tick > 7) {
+    if (this.tick > 8) {
       this.tick = 0;
       this.img.frameIndex++;
     }

@@ -1,7 +1,7 @@
 class EnemyGirl {
   constructor(ctx) {
     this.ctx = ctx;
-    this.x = 1200 - Math.random() * 30;
+    this.x = 1300 - Math.random() * 30;
     this.y = 400;
     this.y0 = 500;
     this.w = 130;

@@ -170,7 +170,24 @@ class Game {
   endBg() {
     if (this.counter >= 3) {
       this.bg.vx = 0;
-      this.player.vx = 3;
+      this.player.vx = 5;
+
+      if (this.player.x + this.player.w === this.ctx.canvas.width) {
+        this.player.vx = 0;
+        this.player.img.src = "/assets/images/Buster/exit.png";
+        this.player.h = 175;
+        this.player.w = 175;
+        this.player.y0 = 450;
+      }
+
+      this.enemyGirls.forEach((girl) => {
+        girl.vx = 0;
+        girl.x = 1400;
+      });
+      this.enemyTazs.forEach((taz) => {
+        taz.vx = 0;
+        taz.x = 1400;
+      });
     }
     console.log(this.counter);
   }
