@@ -1,24 +1,24 @@
 class Player {
-  constructor(ctx) {
+  constructor(ctx, animations) {
     this.ctx = ctx;
     this.x = 50;
     this.y = 0;
-    this.y0 = 500;
-    this.w = 130;
-    this.h = 130;
+    this.y0 = 470;
+    this.w = 135;
+    this.h = 155;
     this.vx = 0;
     this.vy = 0;
     this.ax = 0;
     this.ay = 0.3;
 
     this.img = new Image();
-    this.img.src = "/assets/images/Buster/Run bunny.png";
-    this.img.frames = 6;
+    this.img.src = "/assets/images/Buster/FinalStandin.png";
+    this.img.frames = 7;
     this.img.frameIndex = 0;
     this.tick = 0;
-    
-    this.state = [];
-    this.currentState = this.state[0];
+    this.buffer = 18;
+
+    this.animations = animations;
   }
 
   draw() {
@@ -39,7 +39,7 @@ class Player {
 
   animate() {
     this.tick++;
-    if (this.tick > 8) {
+    if (this.tick > this.buffer) {
       this.tick = 0;
       this.img.frameIndex++;
     }
@@ -63,11 +63,6 @@ class Player {
     if (this.x <= 0) {
       this.vx = 0;
       this.x = 0;
-    }
-
-    if (this.x + this.w >= this.ctx.canvas.width) {
-      this.vx = 0;
-      this.x = this.ctx.canvas.width - this.w;
     }
   }
 

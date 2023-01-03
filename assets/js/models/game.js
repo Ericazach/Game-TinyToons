@@ -38,6 +38,7 @@ class Game {
       this.drawCounter();
       this.counterIncreaser();
       this.endBg();
+      this.checkEndGame();
     }, 1000 / 60);
   }
 
@@ -168,18 +169,12 @@ class Game {
   }
 
   endBg() {
-    if (this.counter >= 3) {
+    if (this.counter >= 2) {
+      const rightPlayer = this.player.x + this.player.w;
       this.bg.vx = 0;
-      this.player.vx = 5;
-
-      if (this.player.x + this.player.w === this.ctx.canvas.width) {
-        this.player.vx = 0;
-        this.player.img.src = "/assets/images/Buster/exit.png";
-        this.player.h = 175;
-        this.player.w = 175;
-        this.player.y0 = 450;
+      if (rightPlayer >= this.ctx.canvas.width / 2) {
+        this.preEndState();
       }
-
       this.enemyGirls.forEach((girl) => {
         girl.vx = 0;
         girl.x = 1400;
@@ -192,13 +187,59 @@ class Game {
     console.log(this.counter);
   }
 
-  checkEndGame() {}
+  preEndState() {
+    this.player.vx = 2;
+    this.player.img.frames = 6;
+    this.player.img.src = "/assets/images/Buster/walkFinal.png";
+    this.player.w = 135;
+    this.player.h = 155;
+    this.player.y0 = 470;
+    this.player.buffer = 9;
+  }
+
+  checkEndGame() {
+    if (this.player.x > this.ctx.canvas.width) {
+      clearInterval(this.interval);
+    }
+  }
 
   drawCounter() {
     this.ctx.font = "35px Arial";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(`Carrots: ${this.score}`, 10, 50);
     this.ctx.fillText(`Damage: ${this.touch}`, 10, 100);
+  }
+
+  changeState(state) {
+    if (state === RIGHT) {
+      this.player.img.frames = 6;
+      this.player.img.src = "/assets/images/Buster/NormaRun.png";
+      this.player.w = 135;
+      this.player.h = 155;
+      this.player.y0 = 470;
+      this.player.buffer = 9;
+    } else if (state === LEFT) {
+      this.player.img.frames = 6;
+      this.player.img.src = "/assets/images/Buster/NormaRunLeft.png";
+      this.player.w = 135;
+      this.player.h = 155;
+      this.player.y0 = 470;
+      this.player.buffer = 9;
+    } else if (state === UP && state !== LEFT && this.player.vx < 0) {
+      this.player.img.frames = 1;
+      this.player.img.src = "/assets/images/Buster/jumpUp.png";
+      this.player.w = 135;
+      this.player.h = 155;
+      this.player.y0 = 470;
+      this.player.buffer = 9;
+    } else if (state === UP && state !== RIGHT && this.player.vx >= 0) {
+      this.player.img.frames = 1;
+      this.player.img.src = "/assets/images/Buster/jumpUpRight.png";
+      this.player.w = 135;
+      this.player.h = 155;
+      this.player.y0 = 470;
+      this.player.buffer = 9;
+    }
   }
 
   startListeners() {
@@ -214,16 +255,22 @@ class Game {
   moveKeyDown(key) {
     if (key === RIGHT) {
       this.player.vx = 5;
+      this.changeState(RIGHT);
       this.shouldMoveCamera();
     } else if (key === LEFT) {
       this.player.vx = -5;
+      this.changeState(LEFT);
     } else if (key === UP) {
+      this.changeState(UP);
       this.player.jump();
     }
   }
 
   moveKeyUp(key) {
-    if (key === RIGHT || key === LEFT) {
+    if (key === RIGHT || key === LEFT || key === UP) {
+      this.player.img.src = "/assets/images/Buster/FinalStandin.png";
+      this.player.img.frames = 7;
+      this.player.buffer = 18;
       this.player.vx = 0;
       this.bg.vx = 0;
     }
