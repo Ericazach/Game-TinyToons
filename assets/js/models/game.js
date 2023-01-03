@@ -5,22 +5,23 @@ class Game {
     this.interval = null;
     this.bg = new Background(ctx);
     this.player = new Player(ctx);
+    this.hearts = [
+      new Heart(this.ctx, 50),
+      new Heart(this.ctx, 100),
+      new Heart(this.ctx, 150),
+    ];
     this.enemyGirls = [];
     this.enemyTazs = [];
     this.carrots = [];
     this.tick = 0;
     this.tickTaz = 50 * 5;
     this.tickGirl = 0;
+    this.tickHeart = 0;
     this.counter = 0;
     this.score = 0;
-    this.touch = 10000;
-
-    this.camera = {
-      position: {
-        x: 0,
-        y: 0,
-      },
-    };
+    this.loseLiveDelayCounter = 0;
+    this.loseLive = false;
+    this.counterLimit = 4;
   }
 
   start() {
@@ -32,9 +33,18 @@ class Game {
       this.checkCollitionsTaz();
       this.checkCollitionsGirl();
       this.move();
-      this.addCarrots();
-      this.addEnemyTaz();
-      this.addEnemyGirl();
+      if (this.counter < this.counterLimit) {
+        this.addCarrots();
+        this.addEnemyTaz();
+        this.addEnemyGirl();
+      }
+      if (this.loseLive) {
+        this.loseLiveDelayCounter++;
+        if (this.loseLiveDelayCounter > 100) {
+          this.loseLive = false;
+          this.loseLiveDelayCounter = 0;
+        }
+      }
       this.drawCounter();
       this.counterIncreaser();
       this.endBg();
@@ -77,7 +87,6 @@ class Game {
 
   shouldMoveCamera() {
     const leftSidePlayer = this.player.x + this.player.w;
-
     if (leftSidePlayer >= this.ctx.canvas.width / 2) {
       this.bg.vx = -5;
       this.player.vx = 0;
@@ -90,6 +99,7 @@ class Game {
     this.bg.draw();
     this.player.draw();
     this.enemyGirls.forEach((girl) => girl.draw());
+    this.hearts.forEach((heart) => heart.draw());
     this.enemyTazs.forEach((taz) => taz.draw());
     this.carrots.forEach((carrot) => {
       carrot.draw();
@@ -130,65 +140,45 @@ class Game {
 
   checkCollitionsTaz() {
     this.enemyTazs.forEach((taz) => {
-      if (
-        isCollition({
-          object1: this.player,
-          object2: taz,
-        })
-      ) {
+      if (isCollition(this.player, taz)) {
         if (this.player.vy > 0) {
-          this.player.vy = 3;
+          this.player.vy = 2;
           taz.y0 = 900;
-        }
-
-        if (this.player.vx >= 0) {
-          this.touch--;
+        } else if (!this.loseLive) {
+          this.loseLive = true;
+          this.hearts.pop();
         }
       }
     });
+    console.log(this.counter);
   }
 
   checkCollitionsGirl() {
     this.enemyGirls.forEach((girl) => {
-      if (
-        isCollition({
-          object1: this.player,
-          object2: girl,
-        })
-      ) {
+      if (isCollition(this.player, girl)) {
         if (this.player.vy > 0) {
-          this.player.vy = 3;
+          this.player.vy = 2;
           girl.y0 = 900;
-        }
-
-        if (this.player.vx >= 0) {
-          this.touch--;
+        } else if (!this.loseLive) {
+          this.loseLive = true;
+          this.hearts.pop();
         }
       }
     });
   }
 
   endBg() {
-    if (this.counter >= 2) {
+    if (this.counter >= this.counterLimit) {
       const rightPlayer = this.player.x + this.player.w;
       this.bg.vx = 0;
       if (rightPlayer >= this.ctx.canvas.width / 2) {
         this.preEndState();
       }
-      this.enemyGirls.forEach((girl) => {
-        girl.vx = 0;
-        girl.x = 1400;
-      });
-      this.enemyTazs.forEach((taz) => {
-        taz.vx = 0;
-        taz.x = 1400;
-      });
     }
-    console.log(this.counter);
   }
 
   preEndState() {
-    this.player.vx = 2;
+    this.player.vx = 3;
     this.player.img.frames = 6;
     this.player.img.src = "/assets/images/Buster/walkFinal.png";
     this.player.w = 135;
@@ -198,7 +188,7 @@ class Game {
   }
 
   checkEndGame() {
-    if (this.player.x > this.ctx.canvas.width) {
+    if (this.player.x > this.ctx.canvas.width || this.hearts.length <= 0) {
       clearInterval(this.interval);
     }
   }
@@ -207,37 +197,24 @@ class Game {
     this.ctx.font = "35px Arial";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(`Carrots: ${this.score}`, 10, 50);
-    this.ctx.fillText(`Damage: ${this.touch}`, 10, 100);
   }
 
   changeState(state) {
     if (state === RIGHT) {
       this.player.img.frames = 6;
       this.player.img.src = "/assets/images/Buster/NormaRun.png";
-      this.player.w = 135;
-      this.player.h = 155;
-      this.player.y0 = 470;
       this.player.buffer = 9;
     } else if (state === LEFT) {
       this.player.img.frames = 6;
       this.player.img.src = "/assets/images/Buster/NormaRunLeft.png";
-      this.player.w = 135;
-      this.player.h = 155;
-      this.player.y0 = 470;
       this.player.buffer = 9;
     } else if (state === UP && state !== LEFT && this.player.vx < 0) {
       this.player.img.frames = 1;
       this.player.img.src = "/assets/images/Buster/jumpUp.png";
-      this.player.w = 135;
-      this.player.h = 155;
-      this.player.y0 = 470;
       this.player.buffer = 9;
     } else if (state === UP && state !== RIGHT && this.player.vx >= 0) {
       this.player.img.frames = 1;
       this.player.img.src = "/assets/images/Buster/jumpUpRight.png";
-      this.player.w = 135;
-      this.player.h = 155;
-      this.player.y0 = 470;
       this.player.buffer = 9;
     }
   }
@@ -270,7 +247,7 @@ class Game {
     if (key === RIGHT || key === LEFT || key === UP) {
       this.player.img.src = "/assets/images/Buster/FinalStandin.png";
       this.player.img.frames = 7;
-      this.player.buffer = 18;
+      this.player.buffer = 15;
       this.player.vx = 0;
       this.bg.vx = 0;
     }

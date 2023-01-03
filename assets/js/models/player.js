@@ -1,5 +1,5 @@
 class Player {
-  constructor(ctx, animations) {
+  constructor(ctx) {
     this.ctx = ctx;
     this.x = 50;
     this.y = 0;
@@ -16,9 +16,7 @@ class Player {
     this.img.frames = 7;
     this.img.frameIndex = 0;
     this.tick = 0;
-    this.buffer = 18;
-
-    this.animations = animations;
+    this.buffer = 15;
   }
 
   draw() {

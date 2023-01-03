@@ -1,8 +1,8 @@
-function isCollition({ object1, object2 }) {
+function isCollition( player, enemy ) {
   return (
-    object1.y + object1.h >= object2.y &&
-    object1.y <= object2.y + object2.h &&
-    object1.x <= object2.x + object2.w &&
-    object1.x + object1.w >= object2.x
+    player.y + player.h >= enemy.y &&
+    player.y <= enemy.y + enemy.h &&
+    player.x <= enemy.x + enemy.w &&
+    player.x + player.w >= enemy.x
   );
 }
