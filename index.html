@@ -5,10 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/assets/styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
     <title>Game</title>
   </head>
   <body>
-    <canvas id="canvas" width="1280px" height="720px"></canvas>
+    <div class="container">
+      <div id="startScreen">
+        <h1 id="start-text">PRESS START</h1>
+      </div>
+      <canvas id="canvas" width="1280px" height="720px"></canvas>
+    </div>
     <script src="/assets/js/models/background.js"></script>
     <script src="/assets/js/models/utilities.js"></script>
     <script src="/assets/js/models/carrots.js"></script>

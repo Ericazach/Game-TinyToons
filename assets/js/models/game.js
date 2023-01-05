@@ -23,10 +23,12 @@ class Game {
     this.loseLiveDelayCounter = 0;
     this.loseLive = false;
     this.counterLimit = 4;
+    this.deadStatus = false;
   }
 
   start() {
     this.interval = setInterval(() => {
+      this.startListeners();
       this.clear();
       this.draw();
       this.move();
@@ -37,7 +39,6 @@ class Game {
         this.addCarrots();
         this.addEnemyTaz();
         this.addEnemyGirl();
-        this.startListeners();
       }
       if (this.loseLive) {
         this.loseLiveDelayCounter++;
@@ -184,14 +185,33 @@ class Game {
 
   preEndState() {
     this.player.vx = 3;
+    this.player.y0 = 470;
     this.player.img.frames = 6;
     this.player.img.src = "/assets/images/Buster/walkFinal.png";
     this.player.buffer = 9;
   }
 
+  KOState() {
+    this.player.vx = 0;
+    this.player.y0 = 470;
+    this.player.img.frames = 4;
+    this.player.img.src = "/assets/images/Buster/KOfinal.png";
+    this.player.w = 110;
+    this.player.buffer = 9;
+  }
+
   checkEndGame() {
     if (this.player.x > this.ctx.canvas.width || this.hearts.length <= 0) {
-      clearInterval(this.interval);
+      this.KOState();
+      this.deadStatus = true;
+      if (this.loseLiveDelayCounter > 60) {
+        clearInterval(this.interval);
+        this.ctx.font = "bolder 70px Courier New";
+        this.ctx.fillStyle = "rgb(217, 217, 217)";
+        this.ctx.strokeStyle = "black";
+        this.ctx.fillText(`GAME OVER`, 530, 400);
+        this.ctx.strokeText(`GAME OVER`, 530, 400);
+      }
     }
   }
 
@@ -225,33 +245,36 @@ class Game {
     document.onkeydown = (e) => {
       this.moveKeyDown(e.keyCode);
     };
-
     document.onkeyup = (e) => {
       this.moveKeyUp(e.keyCode);
     };
   }
 
   moveKeyDown(key) {
-    if (key === RIGHT) {
-      this.player.vx = 5;
-      this.changeState(RIGHT);
-      this.shouldMoveCamera();
-    } else if (key === LEFT) {
-      this.player.vx = -5;
-      this.changeState(LEFT);
-    } else if (key === UP) {
-      this.changeState(UP);
-      this.player.jump();
+    if (this.bgCounter < this.counterLimit && !this.deadStatus) {
+      if (key === RIGHT) {
+        this.player.vx = 5;
+        this.changeState(RIGHT);
+        this.shouldMoveCamera();
+      } else if (key === LEFT) {
+        this.player.vx = -5;
+        this.changeState(LEFT);
+      } else if (key === UP) {
+        this.changeState(UP);
+        this.player.jump();
+      }
     }
   }
 
   moveKeyUp(key) {
-    if (key === RIGHT || key === LEFT || key === UP) {
-      this.player.img.src = "/assets/images/Buster/FinalStandin.png";
-      this.player.img.frames = 7;
-      this.player.buffer = 15;
-      this.player.vx = 0;
-      this.bg.vx = 0;
+    if (this.bgCounter < this.counterLimit && !this.deadStatus) {
+      if (key === RIGHT || key === LEFT || key === UP) {
+        this.player.img.src = "/assets/images/Buster/FinalStandin.png";
+        this.player.img.frames = 7;
+        this.player.buffer = 15;
+        this.player.vx = 0;
+        this.bg.vx = 0;
+      }
     }
   }
 }

@@ -9,4 +9,26 @@ body {
 
 #canvas {
   background-color: white;
+  display: none;
+}
+.container {
+  height: 100%;
+}
+#startScreen {
+  background-image: url(/assets/images/extra/screen.png);
+  background-repeat: no-repeat;
+  object-fit: fill;
+  height: 100%;
+  /* display: none; */
+}
+
+h1 {
+  font-family: "Press Start 2P", cursive;
+  font-size: 30px;
+  color: rgb(223, 235, 238);
+  font-weight: bolder;
+  padding-top: 500px;
+  padding-right: 610px;
+  text-shadow: 0 0 10px rgb(17, 135, 233);
+  text-align: center;
 }
