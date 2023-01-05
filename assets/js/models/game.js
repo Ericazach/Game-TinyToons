@@ -5,6 +5,7 @@ class Game {
     this.interval = null;
     this.bg = new Background(ctx);
     this.player = new Player(ctx);
+    this.scoreCarrot = [new Carrot(this.ctx)];
     this.hearts = [
       new Heart(this.ctx, 50),
       new Heart(this.ctx, 100),
@@ -17,7 +18,7 @@ class Game {
     this.tickTaz = 50 * 5;
     this.tickGirl = 0;
     this.tickHeart = 0;
-    this.counter = 0;
+    this.bgCounter = 0;
     this.score = 0;
     this.loseLiveDelayCounter = 0;
     this.loseLive = false;
@@ -25,18 +26,18 @@ class Game {
   }
 
   start() {
-    this.startListeners();
     this.interval = setInterval(() => {
       this.clear();
       this.draw();
-      this.checkCollitionsCarrot();
-      this.checkCollitionsTaz();
-      this.checkCollitionsGirl();
       this.move();
-      if (this.counter < this.counterLimit) {
+      if (this.bgCounter < this.counterLimit) {
+        this.checkCollitionsCarrot();
+        this.checkCollitionsTaz();
+        this.checkCollitionsGirl();
         this.addCarrots();
         this.addEnemyTaz();
         this.addEnemyGirl();
+        this.startListeners();
       }
       if (this.loseLive) {
         this.loseLiveDelayCounter++;
@@ -45,18 +46,17 @@ class Game {
           this.loseLiveDelayCounter = 0;
         }
       }
+      this.endBg();
       this.drawCounter();
       this.counterIncreaser();
-      this.endBg();
       this.checkEndGame();
     }, 1000 / 60);
   }
 
   addCarrots() {
-    this.tick--;
+    this.tick++;
     if (this.bg.vx <= -1) {
-      if (this.tick <= 0) {
-        this.tick = 200 + Math.random() * 80;
+      if (this.tick % 100 === 25) {
         this.carrots.push(new Carrot(this.ctx));
       }
     }
@@ -73,7 +73,7 @@ class Game {
   counterIncreaser() {
     let widthBg = this.bg.x + this.bg.w;
     if (widthBg <= 5) {
-      this.counter++;
+      this.bgCounter++;
     }
   }
 
@@ -104,6 +104,11 @@ class Game {
     this.carrots.forEach((carrot) => {
       carrot.draw();
       carrot.vx = this.bg.vx;
+    });
+    this.scoreCarrot.forEach((carrot) => {
+      carrot.draw();
+      carrot.x = 60;
+      carrot.y = 30;
     });
   }
 
@@ -142,7 +147,7 @@ class Game {
     this.enemyTazs.forEach((taz) => {
       if (isCollition(this.player, taz)) {
         if (this.player.vy > 0) {
-          this.player.vy = 2;
+          this.player.vy = -7;
           taz.y0 = 900;
         } else if (!this.loseLive) {
           this.loseLive = true;
@@ -150,14 +155,14 @@ class Game {
         }
       }
     });
-    console.log(this.counter);
+    console.log(this.bgCounter);
   }
 
   checkCollitionsGirl() {
     this.enemyGirls.forEach((girl) => {
       if (isCollition(this.player, girl)) {
         if (this.player.vy > 0) {
-          this.player.vy = 2;
+          this.player.vy = -7;
           girl.y0 = 900;
         } else if (!this.loseLive) {
           this.loseLive = true;
@@ -168,7 +173,7 @@ class Game {
   }
 
   endBg() {
-    if (this.counter >= this.counterLimit) {
+    if (this.bgCounter >= this.counterLimit) {
       const rightPlayer = this.player.x + this.player.w;
       this.bg.vx = 0;
       if (rightPlayer >= this.ctx.canvas.width / 2) {
@@ -181,9 +186,6 @@ class Game {
     this.player.vx = 3;
     this.player.img.frames = 6;
     this.player.img.src = "/assets/images/Buster/walkFinal.png";
-    this.player.w = 135;
-    this.player.h = 155;
-    this.player.y0 = 470;
     this.player.buffer = 9;
   }
 
@@ -195,8 +197,8 @@ class Game {
 
   drawCounter() {
     this.ctx.font = "35px Arial";
-    this.ctx.fillStyle = "white";
-    this.ctx.fillText(`Carrots: ${this.score}`, 10, 50);
+    this.ctx.fillStyle = "rgb(217, 217, 217)";
+    this.ctx.fillText(`x ${this.score}`, 130, 70);
   }
 
   changeState(state) {
