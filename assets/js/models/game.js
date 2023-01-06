@@ -42,7 +42,8 @@ class Game {
       }
       if (this.loseLive) {
         this.loseLiveDelayCounter++;
-        if (this.loseLiveDelayCounter > 100) {
+        if (this.loseLiveDelayCounter > 50) {
+          this.normalState();
           this.loseLive = false;
           this.loseLiveDelayCounter = 0;
         }
@@ -153,6 +154,7 @@ class Game {
         } else if (!this.loseLive) {
           this.loseLive = true;
           this.hearts.pop();
+          this.hitState();
         }
       }
     });
@@ -168,6 +170,7 @@ class Game {
         } else if (!this.loseLive) {
           this.loseLive = true;
           this.hearts.pop();
+          this.hitState();
         }
       }
     });
@@ -183,6 +186,16 @@ class Game {
     }
   }
 
+  hitState() {
+    this.player.vx = 0;
+    this.player.ax = 0;
+    this.player.y0 = 470;
+    this.player.img.frames = 2;
+    this.player.img.src = "/assets/images/Buster/hitFinal.png";
+    this.player.w = 135;
+    this.player.buffer = 9;
+  }
+
   preEndState() {
     this.player.vx = 3;
     this.player.y0 = 470;
@@ -193,6 +206,7 @@ class Game {
 
   KOState() {
     this.player.vx = 0;
+    this.player.ax = 0;
     this.player.y0 = 470;
     this.player.img.frames = 4;
     this.player.img.src = "/assets/images/Buster/KOfinal.png";
@@ -200,11 +214,19 @@ class Game {
     this.player.buffer = 9;
   }
 
+  normalState() {
+    this.player.vx = 0;
+    this.player.ax = 0;
+    this.player.img.src = "/assets/images/Buster/FinalStandin.png";
+    this.player.img.frames = 7;
+    this.player.buffer = 15;
+  }
+
   checkEndGame() {
     if (this.player.x > this.ctx.canvas.width || this.hearts.length <= 0) {
       this.KOState();
       this.deadStatus = true;
-      if (this.loseLiveDelayCounter > 60) {
+      if (this.loseLiveDelayCounter >= 50) {
         clearInterval(this.interval);
         this.ctx.font = "bolder 70px Courier New";
         this.ctx.fillStyle = "rgb(217, 217, 217)";
@@ -251,7 +273,11 @@ class Game {
   }
 
   moveKeyDown(key) {
-    if (this.bgCounter < this.counterLimit && !this.deadStatus) {
+    if (
+      this.bgCounter < this.counterLimit &&
+      !this.deadStatus &&
+      !this.loseLive
+    ) {
       if (key === RIGHT) {
         this.player.vx = 5;
         this.changeState(RIGHT);
@@ -267,12 +293,13 @@ class Game {
   }
 
   moveKeyUp(key) {
-    if (this.bgCounter < this.counterLimit && !this.deadStatus) {
+    if (
+      this.bgCounter < this.counterLimit &&
+      !this.deadStatus &&
+      !this.loseLive
+    ) {
       if (key === RIGHT || key === LEFT || key === UP) {
-        this.player.img.src = "/assets/images/Buster/FinalStandin.png";
-        this.player.img.frames = 7;
-        this.player.buffer = 15;
-        this.player.vx = 0;
+        this.normalState();
         this.bg.vx = 0;
       }
     }
