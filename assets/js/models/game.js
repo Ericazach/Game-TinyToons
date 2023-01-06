@@ -14,6 +14,8 @@ class Game {
     this.enemyGirls = [];
     this.enemyTazs = [];
     this.carrots = [];
+    this.overText = new OverText(ctx);
+    this.tryText = new TryAgain(ctx);
     this.tick = 0;
     this.tickTaz = 50 * 5;
     this.tickGirl = 0;
@@ -228,11 +230,8 @@ class Game {
       this.deadStatus = true;
       if (this.loseLiveDelayCounter >= 50) {
         clearInterval(this.interval);
-        this.ctx.font = "bolder 70px Courier New";
-        this.ctx.fillStyle = "rgb(217, 217, 217)";
-        this.ctx.strokeStyle = "black";
-        this.ctx.fillText(`GAME OVER`, 530, 400);
-        this.ctx.strokeText(`GAME OVER`, 530, 400);
+        this.overText.draw();
+        this.tryText.draw();
       }
     }
   }

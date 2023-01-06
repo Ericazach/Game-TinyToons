@@ -14,21 +14,52 @@ body {
 .container {
   height: 100%;
 }
-#startScreen {
+
+#container-screen-items {
   background-image: url(/assets/images/extra/screen.png);
   background-repeat: no-repeat;
   object-fit: fill;
   height: 100%;
-  /* display: none; */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+#try-again {
+  display: none;
+}
+
+/* #start-text {
+  display: none;
+} */
 
 h1 {
   font-family: "Press Start 2P", cursive;
   font-size: 30px;
   color: rgb(223, 235, 238);
+  padding-top: 300px;
   font-weight: bolder;
-  padding-top: 500px;
-  padding-right: 610px;
   text-shadow: 0 0 10px rgb(17, 135, 233);
   text-align: center;
+  animation: opacityOn 2s normal infinite;
+  animation-delay: 1s;
+}
+
+@keyframes opacityOn {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
