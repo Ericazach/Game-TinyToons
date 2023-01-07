@@ -26,11 +26,11 @@ class Game {
     this.loseLive = false;
     this.counterLimit = 4;
     this.deadStatus = false;
-    this.audioIntro = new Audio("assets/Music/Intro.mp3");
-    this.audioDeath = new Audio("assets/Music/Death (Lost Life).mp3");
-    this.audioJump = new Audio("assets/Music/jump.wav");
-    this.audioStageClear = new Audio("assets/Music/Stage Clear.mp3");
-    this.audioCoin = new Audio("assets/Music/coin.wav");
+    this.audioIntro = new Audio("/assets/Music/Intro.mp3");
+    this.audioDeath = new Audio("/assets/Music/Death (Lost Life).mp3");
+    this.audioJump = new Audio("/assets/Music/jump.wav");
+    this.audioStageClear = new Audio("/assets/Music/Stage Clear.mp3");
+    this.audioCoin = new Audio("/assets/Music/coin.wav");
   }
 
   start() {
