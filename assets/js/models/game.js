@@ -247,13 +247,17 @@ class Game {
       this.KOState();
       this.deadStatus = true;
       this.audioIntro.pause();
-      this.audioStageClear.volume = 0;
-      // clearInterval(this.interval);
       if (this.loseLiveDelayCounter >= 50) {
         clearInterval(this.interval);
         this.overText.draw();
         this.tryText.draw();
       }
+    }
+    console.log(this.audioStageClear.currentTime);
+    if (this.audioStageClear.currentTime >= 5.564) {
+      console.log("ok");
+      this.audioStageClear.pause();
+      clearInterval(this.interval);
     }
   }
 
