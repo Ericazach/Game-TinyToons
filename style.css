@@ -16,7 +16,7 @@ body {
 }
 
 #container-screen-items {
-  background-image: url(./assets/images/extra/screen.png);
+  background-image: url("./assets/images/extra/screen.png");
   background-repeat: no-repeat;
   object-fit: fill;
   height: 100%;
