@@ -253,9 +253,7 @@ class Game {
         this.tryText.draw();
       }
     }
-    console.log(this.audioStageClear.currentTime);
-    if (this.audioStageClear.currentTime >= 5.564) {
-      console.log("ok");
+    if (this.audioStageClear.currentTime >= 5.56) {
       this.audioStageClear.pause();
       clearInterval(this.interval);
     }
