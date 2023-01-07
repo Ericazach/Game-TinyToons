@@ -26,11 +26,18 @@ class Game {
     this.loseLive = false;
     this.counterLimit = 4;
     this.deadStatus = false;
+    this.audioIntro = new Audio("/assets/Music/Intro.mp3");
+    this.audioDeath = new Audio("/assets/Music/Death (Lost Life).mp3");
+    this.audioJump = new Audio("/assets/Music/jump.wav");
+    this.audioStageClear = new Audio("/assets/Music/Stage Clear.mp3");
+    this.audioCoin = new Audio("/assets/Music/coin.wav");
   }
 
   start() {
+    this.startListeners();
+    this.audioIntro.play();
+    this.audioIntro.volume = 0.7;
     this.interval = setInterval(() => {
-      this.startListeners();
       this.clear();
       this.draw();
       this.move();
@@ -141,6 +148,8 @@ class Game {
         carrot.y <= this.player.y + this.player.h;
 
       if (colX && colY) {
+        this.audioCoin.play();
+        this.audioCoin.volume = 0.2;
         this.score++;
         this.carrots.splice(index, 1);
       }
@@ -151,6 +160,8 @@ class Game {
     this.enemyTazs.forEach((taz) => {
       if (isCollition(this.player, taz)) {
         if (this.player.vy > 0) {
+          this.audioJump.play();
+          this.audioJump.volume = 0.2;
           this.player.vy = -7;
           taz.y0 = 900;
         } else if (!this.loseLive) {
@@ -160,13 +171,14 @@ class Game {
         }
       }
     });
-    console.log(this.bgCounter);
   }
 
   checkCollitionsGirl() {
     this.enemyGirls.forEach((girl) => {
       if (isCollition(this.player, girl)) {
         if (this.player.vy > 0) {
+          this.audioJump.play();
+          this.audioJump.volume = 0.2;
           this.player.vy = -7;
           girl.y0 = 900;
         } else if (!this.loseLive) {
@@ -183,12 +195,17 @@ class Game {
       const rightPlayer = this.player.x + this.player.w;
       this.bg.vx = 0;
       if (rightPlayer >= this.ctx.canvas.width / 2) {
+        this.audioIntro.pause();
+        this.audioStageClear.play();
         this.preEndState();
       }
     }
   }
 
   hitState() {
+    this.audioDeath.play();
+    this.audioDeath.volume = 0.7;
+    this.bg.vx = 0;
     this.player.vx = 0;
     this.player.ax = 0;
     this.player.y0 = 470;
@@ -207,6 +224,7 @@ class Game {
   }
 
   KOState() {
+    this.bg.vx = 0;
     this.player.vx = 0;
     this.player.ax = 0;
     this.player.y0 = 470;
@@ -219,7 +237,7 @@ class Game {
   normalState() {
     this.player.vx = 0;
     this.player.ax = 0;
-    this.player.img.src = "/assets/images/Buster/FinalStandin.png";
+    this.player.img.src = "/assets/images/Buster/FinalStanding.png";
     this.player.img.frames = 7;
     this.player.buffer = 15;
   }
@@ -228,6 +246,9 @@ class Game {
     if (this.player.x > this.ctx.canvas.width || this.hearts.length <= 0) {
       this.KOState();
       this.deadStatus = true;
+      this.audioIntro.pause();
+      this.audioStageClear.volume = 0;
+      // clearInterval(this.interval);
       if (this.loseLiveDelayCounter >= 50) {
         clearInterval(this.interval);
         this.overText.draw();
@@ -286,6 +307,8 @@ class Game {
         this.changeState(LEFT);
       } else if (key === UP) {
         this.changeState(UP);
+        this.audioJump.play();
+        this.audioJump.volume = 0.2;
         this.player.jump();
       }
     }

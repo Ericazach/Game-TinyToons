@@ -12,7 +12,7 @@ class Player {
     this.ay = 0.3;
 
     this.img = new Image();
-    this.img.src = "/assets/images/Buster/FinalStandin.png";
+    this.img.src = "/assets/images/Buster/FinalStanding.png";
     this.img.frames = 7;
     this.img.frameIndex = 0;
     this.tick = 0;
