@@ -8,7 +8,7 @@ class OverText {
     this.h = 250;
 
     this.img = new Image();
-    this.img.src = "/assets/images/extra/OverFinal.png";
+    this.img.src = "assets/images/extra/OverFinal.png";
   }
 
   draw() {
@@ -36,7 +36,7 @@ class TryAgain {
     this.h = 60;
 
     this.img = new Image();
-    this.img.src = "/assets/images/extra/try Again.png";
+    this.img.src = "assets/images/extra/try Again.png";
   }
 
   draw() {

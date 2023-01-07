@@ -12,7 +12,7 @@ class EnemyGirl {
     this.ay = 1;
 
     this.img = new Image();
-    this.img.src = "/assets/images/Enemy/run-girl.png";
+    this.img.src = "assets/images/Enemy/run-girl.png";
     this.img.frames = 8;
     this.img.frameIndex = 0;
     this.tick = 0;

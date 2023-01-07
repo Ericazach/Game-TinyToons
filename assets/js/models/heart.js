@@ -8,7 +8,7 @@ class Heart {
     this.h = 50;
 
     this.img = new Image();
-    this.img.src = "/assets/images/extra/heart.png";
+    this.img.src = "assets/images/extra/heart.png";
   }
 
   draw() {

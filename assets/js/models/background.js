@@ -8,7 +8,7 @@ class Background {
     this.vx = 0;
     this.vy = 0;
     this.img = new Image();
-    this.img.src = "/assets/images/extra/illustration.png";
+    this.img.src = "assets/images/extra/illustration.png";
   }
 
   draw() {

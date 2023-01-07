@@ -210,7 +210,7 @@ class Game {
     this.player.ax = 0;
     this.player.y0 = 470;
     this.player.img.frames = 2;
-    this.player.img.src = "/assets/images/Buster/hitFinal.png";
+    this.player.img.src = "assets/images/Buster/hitFinal.png";
     this.player.w = 135;
     this.player.buffer = 9;
   }
@@ -219,7 +219,7 @@ class Game {
     this.player.vx = 3;
     this.player.y0 = 470;
     this.player.img.frames = 6;
-    this.player.img.src = "/assets/images/Buster/walkFinal.png";
+    this.player.img.src = "assets/images/Buster/walkFinal.png";
     this.player.buffer = 9;
   }
 
@@ -229,7 +229,7 @@ class Game {
     this.player.ax = 0;
     this.player.y0 = 470;
     this.player.img.frames = 4;
-    this.player.img.src = "/assets/images/Buster/KOfinal.png";
+    this.player.img.src = "assets/images/Buster/KOfinal.png";
     this.player.w = 110;
     this.player.buffer = 9;
   }
@@ -237,7 +237,7 @@ class Game {
   normalState() {
     this.player.vx = 0;
     this.player.ax = 0;
-    this.player.img.src = "/assets/images/Buster/FinalStanding.png";
+    this.player.img.src = "assets/images/Buster/FinalStanding.png";
     this.player.img.frames = 7;
     this.player.buffer = 15;
   }
@@ -266,19 +266,19 @@ class Game {
   changeState(state) {
     if (state === RIGHT) {
       this.player.img.frames = 6;
-      this.player.img.src = "/assets/images/Buster/NormaRun.png";
+      this.player.img.src = "assets/images/Buster/NormaRun.png";
       this.player.buffer = 9;
     } else if (state === LEFT) {
       this.player.img.frames = 6;
-      this.player.img.src = "/assets/images/Buster/NormaRunLeft.png";
+      this.player.img.src = "assets/images/Buster/NormaRunLeft.png";
       this.player.buffer = 9;
     } else if (state === UP && state !== LEFT && this.player.vx < 0) {
       this.player.img.frames = 1;
-      this.player.img.src = "/assets/images/Buster/jumpUp.png";
+      this.player.img.src = "assets/images/Buster/jumpUp.png";
       this.player.buffer = 9;
     } else if (state === UP && state !== RIGHT && this.player.vx >= 0) {
       this.player.img.frames = 1;
-      this.player.img.src = "/assets/images/Buster/jumpUpRight.png";
+      this.player.img.src = "assets/images/Buster/jumpUpRight.png";
       this.player.buffer = 9;
     }
   }

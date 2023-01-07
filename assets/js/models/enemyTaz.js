@@ -12,7 +12,7 @@ class EnemyTaz {
     this.ay = 0.5;
 
     this.img = new Image();
-    this.img.src = "/assets/images/Enemy/taz-run.png";
+    this.img.src = "assets/images/Enemy/taz-run.png";
     this.img.frames = 9;
     this.img.frameIndex = 0;
     this.tick = 0;

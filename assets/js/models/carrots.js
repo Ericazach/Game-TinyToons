@@ -13,7 +13,7 @@ class Carrot {
     this.ay = 1;
 
     this.img = new Image();
-    this.img.src = "/assets/images/extra/carrot.png";
+    this.img.src = "assets/images/extra/carrot.png";
   }
 
   draw() {
